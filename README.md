@@ -61,7 +61,7 @@ Este projeto é uma API RESTful desenvolvida com **Laravel** e empacotada usando
 
 8. Popule o banco com dados:
    ```bash
-   php artisan db:seed
+   docker exec -it laravel-app php artisan db:seed
    ```
 ---
 
