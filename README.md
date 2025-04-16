@@ -1,61 +1,120 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📦 API de Usuários - Laravel
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este projeto é uma API RESTful desenvolvida com **Laravel** e empacotada usando **Docker** para gerenciar usuários. Permite operações como criação, listagem, atualização e exclusão de usuários via requisições HTTP.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Tecnologias
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- PHP 8.2
+- Laravel 12
+- MySQL (Docker)
+- Docker & Docker Compose
+- Sanctum (Para autenticação via token)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+### Pré-requisitos
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Docker
+- Docker Compose
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## ⚙️ Instalação
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/EduardoAssis99/conectala.git
+   cd conectala
+   ```
 
-## Laravel Sponsors
+2. Copie o arquivo `.env`:
+   ```bash
+   cp .env.example .env
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. Configure o banco de dados no `.env`:
+   ```env
+   DB_DATABASE=laravel
+   DB_USERNAME=laravel
+   DB_PASSWORD=laravel
+   ```
 
-### Premium Partners
+4. Suba os containers:
+   ```bash
+   docker compose up -d --build
+   ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+5. Acesse o container do app e rode as migrations:
+   ```bash
+   docker exec -it laravel-app composer install
+   ```
 
-## Contributing
+6. Acesse o container do app e rode as migrations:
+   ```bash
+   docker exec -it laravel-app chmod -R 775 storage bootstrap/cache
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+7. Acesse o container do app e rode as migrations:
+   ```bash
+   docker exec -it laravel-app php artisan migrate
+   ```
 
-## Code of Conduct
+8. Popule o banco com dados:
+   ```bash
+   php artisan db:seed
+   ```
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🐳 Comandos úteis Docker
 
-## Security Vulnerabilities
+```bash
+# Subir containers
+docker-compose up -d --build
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Derrubar containers
+docker-compose down
 
-## License
+# Acessar o container do Laravel
+docker exec -it laravel-app bash
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Rodar Artisan
+docker exec -it laravel-app php artisan migrate
+
+#Verificar os containers rodando:
+docker ps
+```
+
+---
+
+## 🧪 Endpoints
+
+| Método | Rota                     | Descrição                       | Auth |
+|--------|--------------------------|---------------------------------|------|
+| GET    | `/api/`                  | Verifica se a API está ativa    | ❌   |
+| GET    | `/api/login`             | Realiza autenticação do usuário | ❌   |
+| GET    | `/api/logout`            | Desloga usuário autenticado     | ✅   |
+| GET    | `/api/users`             | Lista todos os usuários         | ✅   |
+| POST   | `/api/user/store`        | Cria um novo usuário            | ✅   |
+| GET    | `/api/user/{id}`         | Mostra um usuário específico    | ✅   |
+| PUT    | `/api/user/update/{id}`  | Atualiza um usuário             | ✅   |
+| DELETE | `/api/user/{id}`         | Deleta um usuário               | ✅   |
+
+---
+
+## 🐞 Erros Comuns
+
+- **403 Forbidden**: Ação não autorizada — verifique `Policy`, `Gate` ou falta de token.
+- **404 Not Found**: Usuário não encontrado — ID inexistente ou Model Binding sem resultado.
+- **500 Internal Error**: Verifique permissões dos diretórios `storage/` e `bootstrap/cache`.
+
+---
+
+## ✍️ Autor
+
+Desenvolvido por [Carlos Eduardo Assis](https://github.com/EduardoAssis99) 🚀
+
+---
+
+## 📝 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
